@@ -494,19 +494,29 @@ def main():
         # Filter entries
         filtered_entries = filter_entries(entries, start_date, end_date, package, operation, limit)
 
-        # Export to file if requested
+        # Always export to file unless --export is specified
+        exporter = HistoryExporter()
         if args.export:
-            exporter = HistoryExporter()
             filename = exporter.save_to_text_file(filtered_entries, args.export)
-            if not args.no_notifications:
-                notifier = NotificationManager()
-                notifier.show_popup(filename)
-            else:
-                print(f"History saved to: {filename}")
+        else:
+            documents = FileManager.get_documents_folder()
+            FileManager.ensure_directory_exists(documents)
+            filename = os.path.join(documents, "pacman_history.txt")
+            exporter.save_to_text_file(filtered_entries, filename)
+
+        # Show notification or print message
+        if not args.no_notifications:
+            notifier = NotificationManager()
+            notifier.show_popup(filename)
+        else:
+            print(f"History saved to: {filename}")
 
         # Display in terminal
         display = HistoryDisplay()
         display.display_updates(filtered_entries)
+
+        # Always print a message at the end
+        print(f"\n[INFO] Pacman history exported to: {filename}")
 
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")
