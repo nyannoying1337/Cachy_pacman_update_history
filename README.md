@@ -1,31 +1,31 @@
 # CachyUpdate History
 
-A powerful and user-friendly tool to parse and display Pacman package history in a beautiful, organized format. This tool makes it easy to view your system's package installation, upgrade, and removal history with rich formatting and export capabilities.
+A tool to parse and display Pacman package history in a clean, organized format. Makes it easy to view your system's package installation, upgrade, and removal history.
 
-## 🌟 Features
+## Features
 
-- **📊 Rich Terminal Display**: Beautiful formatted output using Rich library
-- **📅 Date & Time Parsing**: Accurate parsing of Pacman log timestamps
-- **🔍 Smart Filtering**: Filter by date ranges, package names, and operation types
-- **📁 Export Functionality**: Save history to text files for record keeping
-- **🎨 Multiple Display Modes**: Table view, summary view, and detailed view
-- **🔔 Desktop Notifications**: Optional desktop notifications for operations
-- **⚡ Fast Performance**: Optimized parsing for large log files
-- **🛡️ Error Handling**: Robust error handling with helpful messages
-- **📦 Standalone Executable**: No Python installation required (optional)
+- Rich terminal display with formatted tables
+- Date and time parsing from Pacman logs
+- Filtering by date ranges, package names, and operation types
+- Export functionality to save history to text files
+- Multiple display modes (table, summary, detailed)
+- Desktop notifications (optional)
+- Fast performance for large log files
+- Robust error handling
+- Standalone executable option
 
-## 📋 Requirements
+## Requirements
 
-### For Python Script:
+### Python Script:
 - Python 3.7+
 - `rich` library (`pip install rich`)
 
-### For Standalone Executable:
+### Standalone Executable:
 - No additional requirements (self-contained)
 
-## 🚀 Installation
+## Installation
 
-### Option 1: Python Script (Recommended for transparency)
+### Option 1: Python Script
 ```bash
 # Clone the repository
 git clone https://github.com/nyannoying1337/Cachy_pacman_update_history.git
@@ -48,7 +48,7 @@ chmod +x CachyUpdate_History
 ./CachyUpdate_History
 ```
 
-## 📖 Usage
+## Usage
 
 ### Basic Usage
 ```bash
@@ -89,9 +89,8 @@ python3 CachyUpdate_History.py --limit 50
 | `--no-notifications` | Disable desktop notifications | `--no-notifications` |
 | `--help` | Show help message | `--help` |
 
-## 📊 Output Examples
+## Output Example
 
-### Table View
 ```
 ┌─────────────────────┬─────────────────┬──────────────┬─────────────────┐
 │ Date & Time         │ Operation       │ Package      │ Version         │
@@ -102,30 +101,20 @@ python3 CachyUpdate_History.py --limit 50
 └─────────────────────┴─────────────────┴──────────────┴─────────────────┘
 ```
 
-### Summary View
-```
-📦 Package History Summary
-───────────────────────────
-📅 Date Range: 2024-01-01 to 2024-12-31
-📊 Total Operations: 1,234
-✅ Installations: 456
-🔄 Upgrades: 567
-❌ Removals: 211
-```
-
-## 🔧 Configuration
+## Configuration
 
 The tool automatically detects your Pacman log file location. Common locations:
 - `/var/log/pacman.log` (default)
 - `/var/log/pacman.log.1` (rotated logs)
 
-## 🛠️ Development
+## Development
 
 ### Project Structure
 ```
 CachyUpdate_History/
 ├── CachyUpdate_History.py    # Main script
 ├── README.md                 # This file
+├── requirements.txt          # Python dependencies
 ├── .gitignore               # Git ignore rules
 ├── dist/                    # Compiled executable
 └── venv/                    # Virtual environment
@@ -138,59 +127,21 @@ python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Run tests
-python -m pytest
-
 # Build executable
 pyinstaller --onefile CachyUpdate_History.py
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-### Development Setup
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- **Pacman**: The package manager that makes this tool possible
-- **Rich**: Beautiful terminal formatting library
-- **Arch Linux Community**: For the amazing package ecosystem
-
-## 📞 Support
+## Support
 
 If you encounter any issues or have questions:
-
 1. Check the [Issues](https://github.com/nyannoying1337/Cachy_pacman_update_history/issues) page
 2. Create a new issue with detailed information
-3. Include your system information and error messages
-
-## 🔄 Changelog
-
-### Version 2.0.0 (Current)
-- ✨ Complete code refactoring and cleanup
-- 🎨 Improved UI with Rich library
-- 📊 Better data organization and display
-- 🛡️ Enhanced error handling
-- 📦 Standalone executable support
-- 📁 Export functionality
-- 🔔 Desktop notifications
-- 📅 Advanced date filtering
-
-### Version 1.0.0
-- 🎉 Initial release
-- 📋 Basic Pacman log parsing
-- 📊 Simple table display
-
----
-
-**Made with ❤️ for the Arch Linux community** 
+3. Include your system information and error messages 
