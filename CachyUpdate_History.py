@@ -15,6 +15,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
+import argparse
 
 try:
     import tkinter as tk
@@ -444,29 +445,69 @@ class NotificationManager:
         self.console.print(f"[dim]To open the file: xdg-open '{abs_path}'[/]")
 
 
+def filter_entries(entries, start_date=None, end_date=None, package=None, operation=None, limit=None):
+    filtered = []
+    for entry in entries:
+        timestamp, action, pkg, version = entry
+        if start_date and timestamp.date() < start_date:
+            continue
+        if end_date and timestamp.date() > end_date:
+            continue
+        if package and package.lower() not in pkg.lower():
+            continue
+        if operation and action != operation:
+            continue
+        filtered.append(entry)
+    if limit:
+        filtered = filtered[:limit]
+    return filtered
+
+
 def main():
     """Main application entry point."""
+    parser = argparse.ArgumentParser(description="Parse and display pacman package history.")
+    parser.add_argument("--start-date", type=str, help="Start date for filtering (YYYY-MM-DD)")
+    parser.add_argument("--end-date", type=str, help="End date for filtering (YYYY-MM-DD)")
+    parser.add_argument("--package", type=str, help="Filter by package name")
+    parser.add_argument("--operation", type=str, choices=["installed", "upgraded", "removed"], help="Filter by operation type")
+    parser.add_argument("--limit", type=int, help="Limit number of entries shown")
+    parser.add_argument("--export", type=str, help="Export to text file")
+    parser.add_argument("--no-notifications", action="store_true", help="Disable desktop notifications")
+    args = parser.parse_args()
+
     try:
         # Parse pacman log
-        parser = PacmanLogParser()
-        entries = parser.parse_log()
-        
+        log_parser = PacmanLogParser()
+        entries = log_parser.parse_log()
+
         if not entries:
             print("No package changes found in pacman.log")
             return
-        
-        # Export to file
-        exporter = HistoryExporter()
-        filename = exporter.save_to_text_file(entries)
-        
-        # Show notification
-        notifier = NotificationManager()
-        notifier.show_popup(filename)
-        
+
+        # Parse date arguments
+        start_date = datetime.strptime(args.start_date, "%Y-%m-%d").date() if args.start_date else None
+        end_date = datetime.strptime(args.end_date, "%Y-%m-%d").date() if args.end_date else None
+        package = args.package
+        operation = args.operation
+        limit = args.limit
+
+        # Filter entries
+        filtered_entries = filter_entries(entries, start_date, end_date, package, operation, limit)
+
+        # Export to file if requested
+        if args.export:
+            exporter = HistoryExporter()
+            filename = exporter.save_to_text_file(filtered_entries, args.export)
+            if not args.no_notifications:
+                notifier = NotificationManager()
+                notifier.show_popup(filename)
+            else:
+                print(f"History saved to: {filename}")
+
         # Display in terminal
         display = HistoryDisplay()
-        display.display_updates(entries)
-        
+        display.display_updates(filtered_entries)
+
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")
     except Exception as e:
