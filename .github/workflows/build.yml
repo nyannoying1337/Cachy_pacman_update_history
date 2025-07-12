@@ -30,7 +30,7 @@ jobs:
           pyinstaller --onefile --name CachyUpdate_History CachyUpdate_History.py
 
       - name: Upload binary artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: CachyUpdate_History-bin
           path: dist/CachyUpdate_History 
